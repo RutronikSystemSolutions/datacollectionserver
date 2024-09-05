@@ -55,6 +55,10 @@
             counterTextBox = new TextBox();
             stopButton = new Button();
             statusLabel = new Label();
+            statisticsLabel = new Label();
+            statisticsTextBox = new TextBox();
+            playWavButton = new Button();
+            eraseLastButton = new Button();
             SuspendLayout();
             // 
             // comPortLabel
@@ -86,7 +90,7 @@
             // 
             // collectDataButton
             // 
-            collectDataButton.Location = new Point(594, 163);
+            collectDataButton.Location = new Point(364, 147);
             collectDataButton.Name = "collectDataButton";
             collectDataButton.Size = new Size(131, 29);
             collectDataButton.TabIndex = 3;
@@ -200,7 +204,7 @@
             // 
             // statusTextBox
             // 
-            statusTextBox.Location = new Point(775, 199);
+            statusTextBox.Location = new Point(731, 148);
             statusTextBox.Name = "statusTextBox";
             statusTextBox.ReadOnly = true;
             statusTextBox.Size = new Size(228, 27);
@@ -212,7 +216,7 @@
             liveSignalView.BorderStyle = BorderStyle.FixedSingle;
             liveSignalView.Location = new Point(12, 246);
             liveSignalView.Name = "liveSignalView";
-            liveSignalView.Size = new Size(1074, 377);
+            liveSignalView.Size = new Size(1202, 377);
             liveSignalView.TabIndex = 17;
             // 
             // outputDirectoryLabel
@@ -261,7 +265,7 @@
             // currentCounterLabel
             // 
             currentCounterLabel.AutoSize = true;
-            currentCounterLabel.Location = new Point(661, 82);
+            currentCounterLabel.Location = new Point(371, 185);
             currentCounterLabel.Name = "currentCounterLabel";
             currentCounterLabel.Size = new Size(64, 20);
             currentCounterLabel.TabIndex = 23;
@@ -269,7 +273,7 @@
             // 
             // counterTextBox
             // 
-            counterTextBox.Location = new Point(731, 79);
+            counterTextBox.Location = new Point(441, 182);
             counterTextBox.Name = "counterTextBox";
             counterTextBox.ReadOnly = true;
             counterTextBox.Size = new Size(191, 27);
@@ -279,7 +283,7 @@
             // stopButton
             // 
             stopButton.Enabled = false;
-            stopButton.Location = new Point(594, 198);
+            stopButton.Location = new Point(501, 146);
             stopButton.Name = "stopButton";
             stopButton.Size = new Size(131, 29);
             stopButton.TabIndex = 25;
@@ -290,17 +294,58 @@
             // statusLabel
             // 
             statusLabel.AutoSize = true;
-            statusLabel.Location = new Point(775, 176);
+            statusLabel.Location = new Point(676, 151);
             statusLabel.Name = "statusLabel";
             statusLabel.Size = new Size(49, 20);
             statusLabel.TabIndex = 26;
             statusLabel.Text = "Status";
             // 
+            // statisticsLabel
+            // 
+            statisticsLabel.AutoSize = true;
+            statisticsLabel.Location = new Point(658, 184);
+            statisticsLabel.Name = "statisticsLabel";
+            statisticsLabel.Size = new Size(67, 20);
+            statisticsLabel.TabIndex = 27;
+            statisticsLabel.Text = "Statistics";
+            // 
+            // statisticsTextBox
+            // 
+            statisticsTextBox.Location = new Point(731, 181);
+            statisticsTextBox.Name = "statisticsTextBox";
+            statisticsTextBox.ReadOnly = true;
+            statisticsTextBox.Size = new Size(228, 27);
+            statisticsTextBox.TabIndex = 28;
+            // 
+            // playWavButton
+            // 
+            playWavButton.Location = new Point(1027, 146);
+            playWavButton.Name = "playWavButton";
+            playWavButton.Size = new Size(94, 29);
+            playWavButton.TabIndex = 29;
+            playWavButton.Text = "Play WAV";
+            playWavButton.UseVisualStyleBackColor = true;
+            playWavButton.Click += playWavButton_Click;
+            // 
+            // eraseLastButton
+            // 
+            eraseLastButton.Location = new Point(1027, 180);
+            eraseLastButton.Name = "eraseLastButton";
+            eraseLastButton.Size = new Size(94, 29);
+            eraseLastButton.TabIndex = 30;
+            eraseLastButton.Text = "Erase last";
+            eraseLastButton.UseVisualStyleBackColor = true;
+            eraseLastButton.Click += eraseLastButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1098, 635);
+            ClientSize = new Size(1226, 635);
+            Controls.Add(eraseLastButton);
+            Controls.Add(playWavButton);
+            Controls.Add(statisticsTextBox);
+            Controls.Add(statisticsLabel);
             Controls.Add(statusLabel);
             Controls.Add(stopButton);
             Controls.Add(counterTextBox);
@@ -364,5 +409,9 @@
         private TextBox counterTextBox;
         private Button stopButton;
         private Label statusLabel;
+        private Label statisticsLabel;
+        private TextBox statisticsTextBox;
+        private Button playWavButton;
+        private Button eraseLastButton;
     }
 }

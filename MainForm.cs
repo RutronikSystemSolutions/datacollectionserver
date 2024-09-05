@@ -10,6 +10,8 @@ namespace datacollectionserver
         private ConfigurationHolder configurationHolder = new ConfigurationHolder();
         private int recordCounter = 0;
 
+        private short[] lastRecord = null;
+
         public MainForm()
         {
             InitializeComponent();
@@ -47,6 +49,16 @@ namespace datacollectionserver
                     index += 2;
                 }
             }
+
+            // TODO: handle other types
+            // Store the last record
+            lastRecord = new short[buffer.Length];
+            for (int i = 0; i < buffer.Length; i++) lastRecord[i] = buffer[i];
+
+            // Update statistics
+            int sampleCount = lastRecord.Length;
+            double duration = (double)sampleCount / 16000.0;
+            statisticsTextBox.Text = string.Format("{0} samples - {1} seconds", sampleCount, duration);
 
             string filePath = string.Format("{0}\\{1}_{2}.wav", configurationHolder.OutputDirectory, configurationHolder.FilePrefix, recordCounter);
             WavFileGenerator.GenerateAudioFile(filePath, buffer, 16000);
@@ -142,6 +154,10 @@ namespace datacollectionserver
         {
             configurationHolder.setFilePrefix(filePrefixTextBox.Text);
 
+            // Reset the record counter
+            recordCounter = 0;
+            counterTextBox.Text = recordCounter.ToString();
+
             if ((comPortComboBox.SelectedIndex < 0) || (comPortComboBox.SelectedIndex >= comPortComboBox.Items.Count)) return;
 
             var selectedItem = comPortComboBox.Items[comPortComboBox.SelectedIndex];
@@ -169,6 +185,30 @@ namespace datacollectionserver
         private void stopButton_Click(object sender, EventArgs e)
         {
             collector.Stop();
+        }
+
+        private void playWavButton_Click(object sender, EventArgs e)
+        {
+            if (lastRecord == null) return;
+
+            WavFileGenerator.PlayBackAudioFile(lastRecord, 16000);
+        }
+
+        private void eraseLastButton_Click(object sender, EventArgs e)
+        {
+            int toRemove = recordCounter - 1;
+            if (recordCounter == 0) toRemove = 0;
+
+            string filePath = string.Format("{0}\\{1}_{2}.wav", configurationHolder.OutputDirectory, configurationHolder.FilePrefix, toRemove);
+
+            if (recordCounter > 0) recordCounter = recordCounter - 1;
+            counterTextBox.Text = recordCounter.ToString();
+
+            try
+            {
+                File.Delete(filePath);
+            }
+            catch (Exception) { }
         }
     }
 }
