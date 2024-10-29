@@ -374,7 +374,7 @@
             Controls.Add(comPortComboBox);
             Controls.Add(comPortLabel);
             Name = "MainForm";
-            Text = "Data collection server";
+            Text = "Data collection server - v1.0";
             Load += MainForm_Load;
             ResumeLayout(false);
             PerformLayout();
