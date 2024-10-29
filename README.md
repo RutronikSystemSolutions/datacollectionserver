@@ -53,6 +53,11 @@ To gather audio data, you need to set the correct mode inside the config.h file:
 Example: 
 <img src="pictures/software_output.PNG" style="zoom:100%;" />
 
+## How to install
+
+- Make sure .NET 7.0 is installed on your computer.
+- Unpack the zip file and start the .exe file
+
 ## Legal Disclaimer
 
 The evaluation board including the software is for testing purposes only and, because it has limited functions and limited resilience, is not suitable for permanent use under real conditions. If the evaluation board is nevertheless used under real conditions, this is done at one’s responsibility; any liability of Rutronik is insofar excluded. 
