@@ -124,6 +124,9 @@ namespace datacollectionserver
                 case ConnectionState.CollectingData:
                     statusTextBox.Text = "Collecting data";
                     break;
+                case ConnectionState.StartNew:
+                    liveSignalView.Clear();
+                    break;
             }
         }
 
@@ -158,6 +161,12 @@ namespace datacollectionserver
             recordCounter = 0;
             counterTextBox.Text = recordCounter.ToString();
 
+            int baudRate = 0;
+            baudRate = Convert.ToInt32(baudRateTextBox.Text);
+
+            int samplePerPacket = 0;
+            samplePerPacket = Convert.ToInt32(samplesPerPacketTextBox.Text);
+
             if ((comPortComboBox.SelectedIndex < 0) || (comPortComboBox.SelectedIndex >= comPortComboBox.Items.Count)) return;
 
             var selectedItem = comPortComboBox.Items[comPortComboBox.SelectedIndex];
@@ -166,7 +175,7 @@ namespace datacollectionserver
                 string? portName = selectedItem.ToString();
                 if (portName != null)
                 {
-                    collector.StartCollecting(portName, 1000000, SampleType.SampleTypeShort, 1024);
+                    collector.StartCollecting(portName, baudRate, SampleType.SampleTypeShort, samplePerPacket);
                 }
             }
         }

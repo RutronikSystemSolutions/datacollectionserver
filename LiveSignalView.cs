@@ -47,8 +47,8 @@ namespace datacollectionserver
             Position = AxisPosition.Left,
             IsPanEnabled = false,
             IsZoomEnabled = true,
-            Minimum = -1000,
-            Maximum = 1000,
+            Minimum = -32767,
+            Maximum = 32767,
             Unit = "Tick",
             Key = "Amp",
         };
@@ -95,9 +95,16 @@ namespace datacollectionserver
                 lineSerie.Points.Add(new DataPoint(counter, data[i]));
                 counter++;
 
-                if (lineSerie.Points.Count > 15000) lineSerie.Points.RemoveAt(0);
+                if (lineSerie.Points.Count > 16000) lineSerie.Points.RemoveAt(0);
             }
 
+            plotView.InvalidatePlot(true);
+        }
+
+        public void Clear()
+        {
+            counter = 0;
+            lineSerie.Points.Clear();
             plotView.InvalidatePlot(true);
         }
     }

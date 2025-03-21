@@ -24,7 +24,8 @@ namespace datacollectionserver
             Connected,
             WaitingData,
             CollectingData,
-            Error
+            Error,
+            StartNew
         };
 
         public delegate void OnNewConnectionStateEventHandler(ConnectionState state, string lastError);
@@ -45,11 +46,12 @@ namespace datacollectionserver
         private const int WORKER_PROGRESS_NEW_PACKET = 0;
         private const int WORKER_PROGRESS_NEW_RECORDING = 1;
         private const int WORKER_PROGRESS_NEW_STATUS = 2;
+        private const int WORKER_PROGRESS_START_NEW = 3;
 
         /// <summary>
         /// Defines how much packets need to be dropped at start (to avoid to "hear" the button click)
         /// </summary>
-        private const int packetsAtStartToDrop = 5;
+        private const int packetsAtStartToDrop = 10;
 
         public static int GetElementSizeByType(SampleType sampleType)
         {
@@ -150,11 +152,32 @@ namespace datacollectionserver
                 catch (Exception) { }
 
                 long lastReadPacketTimestamp = 0;
-                int remainingToDrop = packetsAtStartToDrop;
+                //int remainingToDrop = packetsAtStartToDrop;
+                int remainingToDrop = 0;
 
                 List<byte[]> recording = new List<byte[]>();
 
                 worker.ReportProgress(WORKER_PROGRESS_NEW_STATUS, ConnectionState.WaitingData);
+
+                // Wait until something available
+                for(; ;)
+                {
+                    if (worker.CancellationPending)
+                    {
+                        try
+                        {
+                            port.Close();
+                        }
+                        catch (Exception) { }
+                        return;
+                    }
+
+                    if (port.BytesToRead > 0)
+                    {
+                        worker.ReportProgress(WORKER_PROGRESS_NEW_STATUS, ConnectionState.StartNew);
+                        break;
+                    }
+                }
 
                 for (; ; )
                 {
@@ -237,6 +260,9 @@ namespace datacollectionserver
                         ConnectionState state = (ConnectionState)e.UserState;
                         OnNewConnectionState?.Invoke(state, string.Empty);
                     }
+                    break;
+                case WORKER_PROGRESS_START_NEW:
+                    OnNewConnectionState?.Invoke(ConnectionState.StartNew, string.Empty);
                     break;
             }
         }

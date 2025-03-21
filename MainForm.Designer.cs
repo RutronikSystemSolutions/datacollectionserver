@@ -113,7 +113,7 @@
             baudRateTextBox.Name = "baudRateTextBox";
             baudRateTextBox.Size = new Size(151, 27);
             baudRateTextBox.TabIndex = 5;
-            baudRateTextBox.Text = "1000000";
+            baudRateTextBox.Text = "576000";
             // 
             // outputFormatLabel
             // 
@@ -166,7 +166,7 @@
             samplesPerPacketTextBox.Name = "samplesPerPacketTextBox";
             samplesPerPacketTextBox.Size = new Size(151, 27);
             samplesPerPacketTextBox.TabIndex = 11;
-            samplesPerPacketTextBox.Text = "1024";
+            samplesPerPacketTextBox.Text = "160";
             // 
             // featuresLabel
             // 
@@ -374,6 +374,7 @@
             Controls.Add(comPortComboBox);
             Controls.Add(comPortLabel);
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Data collection server - v1.0";
             Load += MainForm_Load;
             ResumeLayout(false);
